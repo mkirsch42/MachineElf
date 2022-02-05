@@ -32,3 +32,15 @@ class TestCog(discord.Cog):
                 await asyncio.sleep(wait)
 
         await event.send(message, ephemeral=True)
+
+    @test.sub_command()
+    async def flush_webhooks(
+        self, event: disnake.ApplicationCommandInteraction, allguilds: bool = False
+    ):
+        futs = []
+        await event.response.defer()
+        for guild in event.bot.guilds if allguilds else [event.guild]:
+            for wh in await guild.webhooks():
+                futs.append(wh.delete(reason="/flush_webhooks"))
+        await asyncio.gather(*futs)
+        await event.send(f"Done! Flushed {len(futs)} webhooks.")
