@@ -1,5 +1,6 @@
 import logging
 import disnake.ext.commands as discord
+from app.anon import AnonCog
 
 from app.config import get_settings
 from app.test_cog import TestCog
@@ -15,6 +16,7 @@ def main():
     )
 
     bot.add_cog(TestCog(bot))
+    bot.add_cog(AnonCog(bot))
 
     bot.run(get_settings().bot.token)
 
