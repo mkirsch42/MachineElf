@@ -27,6 +27,8 @@ class AnonCog(discord.Cog):
         message: The message to anonymously send
         newid: Force a new id to be generated for this channel
         """
+        if get_settings().anon.defer:
+            await event.response.defer(ephemeral=True)
         reply = get_settings().anon.messages.sending
         futs: List[Awaitable] = []
 
