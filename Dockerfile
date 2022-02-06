@@ -4,6 +4,7 @@ RUN useradd --create-home --shell /bin/bash elf
 USER elf
 
 WORKDIR /tmp
+RUN pip install --upgrade pip
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH=/home/elf/.local/bin:$PATH
 RUN poetry config virtualenvs.create false
