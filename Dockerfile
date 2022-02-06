@@ -2,11 +2,11 @@ FROM python:3.10.2
 
 RUN useradd --create-home --shell /bin/bash elf
 USER elf
+ENV PATH=/home/elf/.local/bin:$PATH
 
 WORKDIR /tmp
 RUN pip install --upgrade pip
 RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH=/home/elf/.local/bin:$PATH
 RUN poetry config virtualenvs.create false
 
 COPY poetry.lock pyproject.toml /tmp/
