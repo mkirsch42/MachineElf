@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 class AnonMessages(BaseModel):
     new_id: str = "Generated new id {}. Sending message..."
     sending: str = "Sending message as {}..."
-    username: str = "{} || /anon"
+    username: str = "{} (sent with /anon)"
 
 
 class AnonConfig(BaseModel):
