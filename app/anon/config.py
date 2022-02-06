@@ -8,7 +8,7 @@ class AnonMessages(BaseModel):
 
 
 class AnonConfig(BaseModel):
-    timeout_mins: float = 1
+    timeout_mins: float = 30
     hash_length: int = Field(6, ge=4, le=32)
     messages: AnonMessages = Field(default_factory=AnonMessages)
     defer: bool = False
