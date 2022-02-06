@@ -27,7 +27,6 @@ class AnonCog(discord.Cog):
         message: The message to anonymously send
         newid: Force a new id to be generated for this channel
         """
-        await event.response.defer()
         reply = get_settings().anon.messages.sending
         futs: List[Awaitable] = []
 
@@ -42,6 +41,7 @@ class AnonCog(discord.Cog):
             reply = get_settings().anon.messages.new_id
 
         anon = user_anons[event.channel]
+        anon.touch()
         futs.append(event.send(reply.format(anon.id), ephemeral=True))
 
         await asyncio.gather(*futs)
@@ -54,3 +54,4 @@ class AnonCog(discord.Cog):
         await anon.hook.send(
             message, username=get_settings().anon.messages.username.format(anon.id)
         )
+        anon.touch()

@@ -1,14 +1,14 @@
 [tool.poetry]
 authors = ["Mathew Kirschbaum <mkirsch42@gmail.com>"]
 description = ""
-name = "machine-elf"
+name = "machineelf"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
+blockies = "^0.0.3"
 disnake = "^2.3.0"
 pydantic = {extras = ["dotenv"], version = "^1.9.0"}
 python = "^3.10"
-blockies = "^0.0.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
