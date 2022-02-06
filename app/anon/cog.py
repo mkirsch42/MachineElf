@@ -1,5 +1,5 @@
 import asyncio
-from typing import Dict
+from typing import Awaitable, List
 import disnake.ext.commands as discord
 import disnake
 
@@ -27,21 +27,30 @@ class AnonCog(discord.Cog):
         message: The message to anonymously send
         newid: Force a new id to be generated for this channel
         """
-        anon_user = self._anons[event.author]
-        newid = newid or event.channel not in anon_user
-        anon = anon_user[event.channel]
+        await event.response.defer()
         reply = get_settings().anon.messages.sending
+        futs: List[Awaitable] = []
 
-        if newid or anon.expired:
-            anon.new_id()
+        user_anons = self._anons[event.author]
+        if (
+            newid
+            or (event.channel not in user_anons)
+            or (user_anons[event.channel].expired)
+        ):
+            if event.channel in user_anons:
+                futs.append(user_anons.delete(event.channel))
             reply = get_settings().anon.messages.new_id
 
-        await event.send(reply.format(anon.id), ephemeral=True)
+        anon = user_anons[event.channel]
+        futs.append(event.send(reply.format(anon.id), ephemeral=True))
+
+        await asyncio.gather(*futs)
 
         if not anon.hook:
             anon.hook = await event.channel.create_webhook(
                 name=f"anon-{anon.id}", avatar=anon.icon
             )
+
         await anon.hook.send(
             message, username=get_settings().anon.messages.username.format(anon.id)
         )
