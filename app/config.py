@@ -16,6 +16,7 @@ class BotConfig(BaseModel):
     token: str
     owner_id: Optional[int]
     guilds: Optional[List[int]]
+    heartbeat_timeout: int = 60
 
 
 class Config(BaseModel):

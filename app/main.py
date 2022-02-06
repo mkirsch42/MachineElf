@@ -13,6 +13,7 @@ def main():
     bot = discord.Bot(
         owner_id=get_settings().bot.owner_id,
         test_guilds=get_settings().bot.guilds,
+        heartbeat_timeout=get_settings().bot.heartbeat_timeout,
     )
 
     bot.add_cog(TestCog(bot))
