@@ -23,10 +23,15 @@ class LoggingConfig(BaseModel):
     setup: Dict[str, Any] = {"level": "INFO"}
 
 
+class RedisConfig(BaseModel):
+    url: str = "redis://localhost"
+
+
 class Config(BaseModel):
     bot: BotConfig
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
     anon: AnonConfig = Field(default_factory=AnonConfig)
+    redis: RedisConfig = Field(default_factory=RedisConfig)
 
 
 @functools.lru_cache()

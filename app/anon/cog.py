@@ -1,5 +1,3 @@
-import asyncio
-from typing import Awaitable, List
 import disnake.ext.commands as discord
 import disnake
 
@@ -8,9 +6,9 @@ from app.config import get_settings
 
 
 class AnonCog(discord.Cog):
-    def __init__(self, bot: discord.Bot):
+    def __init__(self, bot: discord.Bot, **kwargs):
         self._bot = bot
-        self._anons = AnonStore()
+        self._store = AnonStore(**kwargs)
 
     @discord.slash_command()
     async def anon(
@@ -30,30 +28,20 @@ class AnonCog(discord.Cog):
         if get_settings().anon.defer:
             await event.response.defer(ephemeral=True)
         reply = get_settings().anon.messages.sending
-        futs: List[Awaitable] = []
+        path = (event.author.id, event.channel.id)
 
-        user_anons = self._anons[event.author]
-        if (
-            newid
-            or (event.channel not in user_anons)
-            or (user_anons[event.channel].expired)
-        ):
-            if event.channel in user_anons:
-                futs.append(user_anons.delete(event.channel))
+        if newid:
+            id_created = True
+            anon_id, icon = await self._store.create_id(path)
+        else:
+            anon_id, icon, id_created = await self._store[path]
+
+        if id_created:
             reply = get_settings().anon.messages.new_id
 
-        anon = user_anons[event.channel]
-        anon.touch()
-        futs.append(event.send(reply.format(anon.id), ephemeral=True))
-
-        await asyncio.gather(*futs)
-
-        if not anon.hook:
-            anon.hook = await event.channel.create_webhook(
-                name=f"anon-{anon.id}", avatar=anon.icon
-            )
-
-        await anon.hook.send(
-            message, username=get_settings().anon.messages.username.format(anon.id)
+        await event.send(reply.format(anon_id), ephemeral=True)
+        hook = await event.channel.create_webhook(name=f"anon-{anon_id}", avatar=icon)
+        await hook.send(
+            message, username=get_settings().anon.messages.username.format(anon_id)
         )
-        anon.touch()
+        await hook.delete()
