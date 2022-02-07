@@ -6,7 +6,7 @@ from app.anon.config import AnonConfig
 
 
 class Environment(BaseSettings):
-    config_file: str = "./machineelf.json"
+    config_file: str = ".config/machineelf.json"
 
     class Config:
         env_file = ".env"
