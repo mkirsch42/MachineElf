@@ -6,20 +6,26 @@ from app.config import get_settings
 from app.test_cog import TestCog
 
 
+def setup_logging():
+    logging.basicConfig(**get_settings().logging.setup)
+    for log_name, level in get_settings().logging.levels.items():
+        logging.getLogger(log_name).setLevel(level)
+
+
 def main():
-    logging.info("Starting...")
-    logging.getLogger("disnake").setLevel(logging.INFO)
+    setup_logging()
 
     bot = discord.Bot(
         owner_id=get_settings().bot.owner_id,
         test_guilds=get_settings().bot.guilds,
-        heartbeat_timeout=get_settings().bot.heartbeat_timeout,
     )
 
     bot.add_cog(TestCog(bot))
     bot.add_cog(AnonCog(bot))
 
+    logging.info("Starting bot...")
     bot.run(get_settings().bot.token)
 
 
-main()
+if __name__ == "__main__":
+    main()
