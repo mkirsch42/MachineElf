@@ -2,12 +2,14 @@ import asyncio
 import disnake.ext.commands as discord
 import disnake
 
+from app.config import get_settings
+
 
 class TestCog(discord.Cog):
     def __init__(self, bot: discord.Bot):
         self._bot = bot
 
-    @discord.slash_command()
+    @discord.slash_command(guild_ids=get_settings().test.guilds)
     async def test(self, _):
         """Test Commands"""
 

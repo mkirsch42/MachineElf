@@ -15,6 +15,8 @@ def setup_logging():
 def main():
     setup_logging()
 
+    logging.debug(f"Loaded config:\n{get_settings().json()}")
+
     bot = discord.Bot(
         owner_id=get_settings().bot.owner_id,
         test_guilds=get_settings().bot.guilds,

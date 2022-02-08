@@ -26,10 +26,13 @@ class LoggingConfig(BaseModel):
 class RedisConfig(BaseModel):
     url: str = "redis://localhost"
 
+class TestConfig(BaseModel):
+    guilds: Optional[List[int]] = None
 
 class Config(BaseModel):
     bot: BotConfig
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
+    test: TestConfig = Field(default_factory=TestConfig)
     anon: AnonConfig = Field(default_factory=AnonConfig)
     redis: RedisConfig = Field(default_factory=RedisConfig)
 
