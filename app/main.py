@@ -1,8 +1,9 @@
 import logging
-import disnake.ext.commands as discord
-from app.anon import AnonCog
+from app.bot import MachineElfBot
 
 from app.config import get_settings
+from app.anon.cog import AnonCog
+from app.suffer.cog import SufferCog
 from app.test_cog import TestCog
 
 
@@ -17,13 +18,14 @@ def main():
 
     logging.debug(f"Loaded config:\n{get_settings().json()}")
 
-    bot = discord.Bot(
+    bot = MachineElfBot(
         owner_id=get_settings().bot.owner_id,
         test_guilds=get_settings().bot.guilds,
     )
 
     bot.add_cog(TestCog(bot))
     bot.add_cog(AnonCog(bot))
+    bot.add_cog(SufferCog(bot))
 
     logging.info("Starting bot...")
     bot.run(get_settings().bot.token)

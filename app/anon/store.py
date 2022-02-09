@@ -26,7 +26,7 @@ class AnonStore:
         resolution: Optional[int] = None,
     ):
         self._redis = aioredis.from_url(
-            url or get_settings().redis.url, decode_responses=True
+            url or get_settings().db.redis, decode_responses=True
         )
         self._prefix = prefix or get_settings().anon.redis_prefix
         self._id_length = id_length or get_settings().anon.hash_length

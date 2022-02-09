@@ -5,6 +5,18 @@ services:
     ports:
       - 6379
     restart: unless-stopped
+  sql:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=passwd
+    volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: .initdb/
+        target: /docker-entrypoint-initdb.d/
   machineelf:
     build: .
     image: machineelf:latest
@@ -17,3 +29,4 @@ services:
     restart: unless-stopped
 volumes:
   config:
+  pgdata:

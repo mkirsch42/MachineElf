@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseSettings, BaseModel, Field
 
 from app.anon.config import AnonConfig
+from app.suffer.config import SufferConfig
 
 
 class Environment(BaseSettings):
@@ -16,6 +17,7 @@ class BotConfig(BaseModel):
     token: str
     owner_id: Optional[int]
     guilds: Optional[List[int]]
+    admin_roles: List[int] = []
 
 
 class LoggingConfig(BaseModel):
@@ -23,18 +25,22 @@ class LoggingConfig(BaseModel):
     setup: Dict[str, Any] = {"level": "INFO"}
 
 
-class RedisConfig(BaseModel):
-    url: str = "redis://localhost"
+class DatabaseConfig(BaseModel):
+    redis: str = "redis://localhost"
+    sql: str = "postgres://localhost"
+
 
 class TestConfig(BaseModel):
     guilds: Optional[List[int]] = None
 
+
 class Config(BaseModel):
     bot: BotConfig
+    db: DatabaseConfig = Field(default_factory=DatabaseConfig)
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
     test: TestConfig = Field(default_factory=TestConfig)
     anon: AnonConfig = Field(default_factory=AnonConfig)
-    redis: RedisConfig = Field(default_factory=RedisConfig)
+    suffer: SufferConfig = Field(default_factory=SufferConfig)
 
 
 @functools.lru_cache()
