@@ -6,7 +6,8 @@ services:
       - 6379
     restart: unless-stopped
   sql:
-    image: postgres:latest
+    build: .docker/sql
+    image: elfsql:latest
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD=passwd
@@ -14,9 +15,6 @@ services:
       - type: volume
         source: pgdata
         target: /var/lib/postgresql/data
-      - type: bind
-        source: .initdb/
-        target: /docker-entrypoint-initdb.d/
   machineelf:
     build: .
     image: machineelf:latest
