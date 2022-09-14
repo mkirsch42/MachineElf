@@ -10,9 +10,6 @@ from app.collect.config import CollectConfig
 class Environment(BaseSettings):
     config_file: str = ".config/machineelf.json"
 
-    class Config:
-        env_file = ".env"
-
 
 class BotConfig(BaseModel):
     token: str
