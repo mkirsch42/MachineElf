@@ -27,7 +27,7 @@ class CollectModal(disnake.ui.Modal):
                 headers={"x-api-key": get_settings().collect.api_key},
                 json={
                     "key": event.text_values["email"],
-                    "value": f"{event.user.name}#{event.user.tag} ({event.user.nick})",
+                    "value": f"{event.user.name}#{event.user.tag} ({event.user.display_name})",
                 },
             ) as resp:
                 await resp.json()
