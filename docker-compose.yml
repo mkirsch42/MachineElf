@@ -17,7 +17,6 @@ services:
         target: /var/lib/postgresql/data
   machineelf:
     build: .
-    image: machineelf:latest
     volumes:
       - type: volume
         source: config
