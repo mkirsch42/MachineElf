@@ -9,10 +9,10 @@ RUN curl -sSL https://sh.rustup.rs | bash -s -- -y
 RUN pip install --upgrade pip
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
+WORKDIR /srv
 COPY poetry.lock pyproject.toml /srv/
 RUN poetry install --only main
 
 ADD . /srv
 
-WORKDIR /srv
 CMD poetry run python -m app.main
