@@ -5,6 +5,7 @@ from app.config import get_settings
 from app.anon.cog import AnonCog
 from app.suffer.cog import SufferCog
 from app.test_cog import TestCog
+from app.collect.cog import CollectCog
 
 
 def setup_logging():
@@ -26,6 +27,7 @@ def main():
     bot.add_cog(TestCog(bot))
     bot.add_cog(AnonCog(bot))
     bot.add_cog(SufferCog(bot))
+    bot.add_cog(CollectCog(bot))
 
     logging.info("Starting bot...")
     bot.run(get_settings().bot.token)

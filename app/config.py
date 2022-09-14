@@ -4,6 +4,7 @@ from pydantic import BaseSettings, BaseModel, Field
 
 from app.anon.config import AnonConfig
 from app.suffer.config import SufferConfig
+from app.collect.config import CollectConfig
 
 
 class Environment(BaseSettings):
@@ -41,6 +42,7 @@ class Config(BaseModel):
     test: TestConfig = Field(default_factory=TestConfig)
     anon: AnonConfig = Field(default_factory=AnonConfig)
     suffer: SufferConfig = Field(default_factory=SufferConfig)
+    collect: CollectConfig = Field(default_factory=CollectConfig)
 
 
 @functools.lru_cache()
