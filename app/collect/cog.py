@@ -65,4 +65,7 @@ class CollectCog(discord.Cog):
         self,
         event: disnake.ApplicationCommandInteraction,
     ):
+        """
+        Create a button to collect Discord usernames.
+        """
         await event.response.send_message(view=CollectView())
