@@ -24,7 +24,8 @@ def main():
         test_guilds=get_settings().bot.guilds,
     )
 
-    bot.add_cog(TestCog(bot))
+    if get_settings().test.guilds:
+        bot.add_cog(TestCog(bot))
     bot.add_cog(AnonCog(bot))
     bot.add_cog(SufferCog(bot))
     bot.add_cog(CollectCog(bot))
