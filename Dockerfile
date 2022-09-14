@@ -1,5 +1,7 @@
 FROM python:3.10.2
 
+RUN apt install libjpeg-dev
+
 RUN useradd --create-home --shell /bin/bash elf
 USER elf
 ENV PATH=/home/elf/.local/bin:/home/elf/.cargo/bin:$PATH
