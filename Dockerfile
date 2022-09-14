@@ -12,9 +12,10 @@ RUN curl -sSL https://sh.rustup.rs | bash -s -- -y
 RUN pip install --upgrade pip
 RUN curl -sSL https://install.python-poetry.org | python3 -
 RUN poetry config virtualenvs.create false
+RUN poetry config install.user true
 
 COPY poetry.lock pyproject.toml /tmp/
-RUN poetry install --only main --user
+RUN poetry install --only main
 
 ADD . /srv
 
