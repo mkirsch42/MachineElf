@@ -21,6 +21,7 @@ class CollectModal(disnake.ui.Modal):
         )
 
     async def callback(self, event: disnake.ModalInteraction):
+        await event.response.defer(ephemeral=True)
         async with aiohttp.ClientSession() as session:
             async with session.post(
                 get_settings().collect.api_url,
@@ -34,9 +35,7 @@ class CollectModal(disnake.ui.Modal):
         await event.guild.fetch_roles()
         await asyncio.gather(
             event.user.add_roles(event.guild.get_role(get_settings().collect.role_id)),
-            event.response.send_message(
-                get_settings().collect.success_message, ephemeral=True
-            ),
+            event.followup.send(get_settings().collect.success_message, ephemeral=True),
         )
 
 
